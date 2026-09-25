@@ -4,15 +4,15 @@ Angular 22 application with Angular Material.
 
 ## Adding a page
 
-Each page lives in its own folder under `src/features/` and is lazy-loaded, so its code only downloads when someone opens it. Example for a "Reports" page:
+Each page lives in its own folder under `src/app/features/` and is lazy-loaded, so its code only downloads when someone opens it. Example for a "Reports" page:
 
 1. **Create the component:**
 
    ```bash
-   ng g c reports --path src/features
+   ng g c reports --path src/app/features
    ```
 
-   This creates `src/features/reports/` with `reports.ts`, `.html`, `.scss` and `.spec.ts`. Without the Angular CLI installed globally, use `npx ng g c …`.
+   This creates `src/app/features/reports/` with `reports.ts`, `.html`, `.scss` and `.spec.ts`.
 
 2. **Add a route** in `src/app/app.routes.ts`:
 
@@ -21,14 +21,14 @@ Each page lives in its own folder under `src/features/` and is lazy-loaded, so i
      {
        path: 'reports',
        title: 'Reports', // browser tab title
-       loadComponent: () => import('../features/reports/reports').then((m) => m.Reports),
+       loadComponent: () => import('./features/reports/reports').then((m) => m.Reports),
      },
    ];
    ```
 
    `loadComponent` with `import()` makes the page **lazy-loaded**: the build puts it in its own file, which the browser downloads only when the page is first opened. This keeps the initial download small as pages are added. Don't import the component at the top of the file and use `component: Reports` instead, as that bundles it into the initial download.
 
-3. **Add it to the sidenav** in the `navItems` array in `src/core/layout/sidenav/sidenav.ts`:
+3. **Add it to the sidenav** in the `navItems` array in `src/app/core/layout/sidenav/sidenav.ts`:
 
    ```ts
    { label: 'Reports', icon: 'bar_chart', route: '/reports' },
