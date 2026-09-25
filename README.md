@@ -1,6 +1,6 @@
 # Dashboard Starter
 
-Angular 22 application with Angular Material and Vitest for unit tests.
+Angular 22 application with Angular Material.
 
 ## Adding a page
 
