@@ -1,4 +1,55 @@
-# Dashboard
+# Dashboard Starter
+
+Angular 22 application with Angular Material and Vitest for unit tests.
+
+## Adding a page
+
+Each page lives in its own folder under `src/features/` and is lazy-loaded, so its code only downloads when someone opens it. Example for a "Reports" page:
+
+1. **Create the component:**
+
+   ```bash
+   ng g c reports --path src/features
+   ```
+
+   This creates `src/features/reports/` with `reports.ts`, `.html`, `.scss` and `.spec.ts`. Without the Angular CLI installed globally, use `npx ng g c …`.
+
+2. **Add a route** in `src/app/app.routes.ts`:
+
+   ```ts
+   export const routes: Routes = [
+     {
+       path: 'reports',
+       title: 'Reports', // browser tab title
+       loadComponent: () => import('../features/reports/reports').then((m) => m.Reports),
+     },
+   ];
+   ```
+
+   `loadComponent` with `import()` makes the page **lazy-loaded**: the build puts it in its own file, which the browser downloads only when the page is first opened. This keeps the initial download small as pages are added. Don't import the component at the top of the file and use `component: Reports` instead, as that bundles it into the initial download.
+
+3. **Add it to the sidenav** in the `navItems` array in `src/core/layout/sidenav/sidenav.ts`:
+
+   ```ts
+   { label: 'Reports', icon: 'bar_chart', route: '/reports' },
+   ```
+
+   `icon` is a Material Symbols name. Browse them at [fonts.google.com/icons](https://fonts.google.com/icons) and use the name shown there in lowercase, e.g. `bar_chart`.
+
+`route` must match the route's `path` with a leading `/`. The link is highlighted when that page is open.
+
+### Good to know
+
+- **Home has no page yet.** Its nav link goes to `/`, but no route has `path: ''`, so the content area is empty. Add one with the steps above.
+- **Links only highlight on an exact URL match.** A page with sub-pages, e.g. `/reports/123`, won't keep "Reports" highlighted. To change that, edit `[routerLinkActiveOptions]` in `sidenav.html`.
+
+## Not Included But Nice To Have
+
+1. A loading/spinner interceptor that tracks in-flight requests globally.
+2. A user-facing notification service so errors surface consistently rather than through ad hoc alert() calls.
+3. Error handling
+   - httpErrorInterceptor handles failed API calls. It turns them into an ApiError, shows one clear notification (including the reference id for server errors), and re-throws so the calling code can still react.
+   - GlobalErrorHandler handles everything else: template errors, bugs in effects, unhandled promises. It logs the error and shows a generic message, and skips errors layer 1 already reported, so you never get two messages for one failure.
 
 ## Code quality: ESLint, Prettier, Husky and lint-staged
 

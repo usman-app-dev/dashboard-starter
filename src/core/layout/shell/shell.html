@@ -1,0 +1,13 @@
+<!-- autosize lets the content area follow the sidenav's width as it collapses. -->
+<mat-sidenav-container autosize>
+  <mat-sidenav mode="side" opened disableClose>
+    <app-sidenav [(collapsed)]="collapsed" />
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-header />
+    <main>
+      <ng-content />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

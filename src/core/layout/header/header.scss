@@ -1,0 +1,9 @@
+mat-toolbar {
+  height: 64px;
+  background: var(--mat-sys-surface-container);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.title {
+  font: var(--mat-sys-title-large);
+}

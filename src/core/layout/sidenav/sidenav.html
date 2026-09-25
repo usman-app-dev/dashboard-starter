@@ -1,0 +1,69 @@
+<div class="top">
+  @if (collapsed()) {
+    <!-- No room for both the leaf and the button, so the leaf turns into the expand arrow on hover. -->
+    <button
+      matIconButton
+      class="expand"
+      aria-label="Expand navigation"
+      aria-expanded="false"
+      matTooltip="Expand"
+      matTooltipPosition="right"
+      (click)="collapsed.set(false)"
+    >
+      <mat-icon class="leaf">nest_eco_leaf</mat-icon>
+      <mat-icon class="arrow">keyboard_double_arrow_right</mat-icon>
+    </button>
+  } @else {
+    <mat-icon class="leaf">nest_eco_leaf</mat-icon>
+    <button
+      matIconButton
+      aria-label="Collapse navigation"
+      aria-expanded="true"
+      matTooltip="Collapse"
+      matTooltipPosition="right"
+      (click)="collapsed.set(true)"
+    >
+      <mat-icon>keyboard_double_arrow_left</mat-icon>
+    </button>
+  }
+</div>
+
+<mat-nav-list>
+  @for (item of navItems; track item.route) {
+    <a
+      mat-list-item
+      [routerLink]="item.route"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [activated]="rla.isActive"
+      [matTooltip]="item.label"
+      [matTooltipDisabled]="!collapsed()"
+      matTooltipPosition="right"
+    >
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      @if (!collapsed()) {
+        <span matListItemTitle>{{ item.label }}</span>
+      }
+    </a>
+  }
+</mat-nav-list>
+
+<div class="theme-toggle">
+  @if (collapsed()) {
+    <button
+      matIconButton
+      [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      [matTooltip]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      matTooltipPosition="right"
+      (click)="theme.toggle()"
+    >
+      <mat-icon>{{ theme.isDark() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+  } @else {
+    <mat-icon>{{ theme.isDark() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    <mat-slide-toggle [checked]="theme.isDark()" (change)="theme.toggle()">
+      Dark mode
+    </mat-slide-toggle>
+  }
+</div>
